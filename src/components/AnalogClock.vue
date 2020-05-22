@@ -103,7 +103,7 @@ export default class AnalogClock extends Vue {
     this.rotation = {
       hours: h * 30 + m * 0.5,
       minutes: m * 6 + s * 0.1,
-      seconds: s * 6,
+      seconds: s * 6 - 6,
     };
   }
 }
