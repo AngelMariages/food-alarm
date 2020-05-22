@@ -32,6 +32,8 @@
 import { Component, Vue } from 'vue-property-decorator';
 import AnalogClock from './AnalogClock.vue';
 
+const API = 'https://angelm340.ddns.net/sound/';
+
 @Component({
   components: {
     AnalogClock,
@@ -49,7 +51,7 @@ export default class MainDisplay extends Vue {
   iniciarAlarma() {
     this.alarmaLoading = true;
 
-    fetch('https://angelm340.ddns.net/sound/?start', { mode: 'no-cors' })
+    fetch(`${API}?start`)
       .then(() => {
         this.alarmaLoading = false;
         this.getStatus();
@@ -59,7 +61,7 @@ export default class MainDisplay extends Vue {
   pararAlarma() {
     this.stopLoading = true;
 
-    fetch('https://angelm340.ddns.net/sound/?stop', { mode: 'no-cors' })
+    fetch(`${API}?stop`)
       .then(() => {
         this.stopLoading = false;
         this.getStatus();
@@ -67,7 +69,7 @@ export default class MainDisplay extends Vue {
   }
 
   getStatus() {
-    fetch('https://angelm340.ddns.net/sound/?status')
+    fetch(`${API}?status`)
       .then((resp) => resp.json()).then((apiStatus) => {
         const { status } = apiStatus;
 
