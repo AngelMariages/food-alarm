@@ -10,8 +10,9 @@
           :loading="alarmaLoading"
           type="is-primary"
           :disabled="!startAllowed"
-          expanded>
-            Iniciar
+          expanded
+        >
+          Iniciar
         </b-button>
       </div>
       <div class="column is-full">
@@ -20,8 +21,9 @@
           :loading="stopLoading"
           type="is-primary"
           :disabled="!stopAllowed"
-          expanded>
-            Parar
+          expanded
+        >
+          Parar
         </b-button>
       </div>
     </div>
@@ -56,6 +58,8 @@ export default class MainDisplay extends Vue {
         this.alarmaLoading = false;
         this.getStatus();
       });
+
+    this.iniciarTimer();
   }
 
   pararAlarma() {
@@ -68,8 +72,18 @@ export default class MainDisplay extends Vue {
       });
   }
 
-  getStatus() {
-    fetch(`${API}?status`)
+  iniciarTimer() {
+    const intervalNum = setInterval(async () => {
+      const status = await this.getStatus();
+
+      if (status && status === 'STOPPED') {
+        clearInterval(intervalNum);
+      }
+    }, 500);
+  }
+
+  async getStatus(): Promise<string> {
+    return fetch(`${API}?status`)
       .then((resp) => resp.json()).then((apiStatus) => {
         const { status } = apiStatus;
 
@@ -80,6 +94,8 @@ export default class MainDisplay extends Vue {
           this.startAllowed = true;
           this.stopAllowed = false;
         }
+
+        return status;
       });
   }
 
@@ -90,8 +106,8 @@ export default class MainDisplay extends Vue {
 </script>
 
 <style scoped>
-  .clock-column {
-    height: 50vh;
-    width: 100%;
-  }
+.clock-column {
+  height: 50vh;
+  width: 100%;
+}
 </style>
