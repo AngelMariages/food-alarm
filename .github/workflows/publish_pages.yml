@@ -8,16 +8,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 📦 Checkout
-        uses: actions/checkout@v2
-        with:
-          persist-credentials: false
+        uses: actions/checkout@v3
 
       - name: 👷‍♂️ Install and Build 
         run: |
           npm ci
           npm run build
       - name: 🚀 Deploy
-        uses: JamesIves/github-pages-deploy-action@releases/v3
+        uses: JamesIves/github-pages-deploy-action@releases/v4.3.3
         with:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           BRANCH: gh-pages
